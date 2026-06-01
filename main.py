@@ -1,6 +1,7 @@
 from src.loader import fetch_drive_data
 from src.profiler import profile_chess_data
 from src.clean import clean_chess
+from src.validator import run_all_validations
 
 URL_CHESS_GAMES = (
 "https://drive.google.com/file/d/1eR3NZtwIC6ECN3vhtrynqmx8okG0twA7/view?usp=sharing"
@@ -44,6 +45,7 @@ def main():
     df_chess_clean = (
         df_chess
         .pipe(clean_chess)
+        .pipe(run_all_validations)
     )
 
     print(f"\n[+] Clean dataset shape: {df_chess_clean.shape}")
