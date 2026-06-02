@@ -219,9 +219,9 @@ def analyze_stage4(df):
     # Q16
     # ==========================
 
-    # خطوة 1: نأخذ فقط الصفوف التي فشل دمجها (أي اسم العرض فارغ)
+    #  نأخذ فقط الصفوف التي فشل دمجها 
     missing_registry_df = df[df["display_name"].isna()]    
-    # خطوة 2: نحسب عدد اللاعبين الفريدين (white_id) من هذه الصفوف
+    #  نحسب عدد اللاعبين الفريدين (white_id) من هذه الصفوف
     unique_missing_white_players = missing_registry_df["white_id"].nunique()
     print(f"\nQ16 — How many white players have no registry entry?")
     print(f"     -> Unique White Players: {unique_missing_white_players:,}")
