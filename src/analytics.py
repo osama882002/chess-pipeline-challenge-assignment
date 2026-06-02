@@ -244,3 +244,36 @@ def analyze_stage4(df):
     )
 
     return df
+
+def analyze_visualizations(df):
+
+    print("\n" + "=" * 55)
+    print("VISUALIZATION ANALYSIS")
+    print("=" * 55)
+
+    # ==================================================
+    # Q18
+    # ==================================================
+
+    winner_counts = (df["winner"].value_counts())
+
+    print("\nQ18 - Win Counts by Color")
+
+    for winner, count in winner_counts.items():
+
+        print(f"     -> {winner:<5}: {count:,} games")
+        
+
+    # ==================================================
+    # Q19
+    # ==================================================
+
+    print("\nQ19 - Rating vs Turns Observation")
+
+    print("     -> Higher-rated games are not necessarily longer.")
+
+    print("     -> Game length varies across all rating levels.")
+
+    print("     -> No strong linear relationship between rating and turns.")
+
+    return df
