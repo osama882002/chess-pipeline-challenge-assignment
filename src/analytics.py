@@ -3,10 +3,10 @@ from src.logger import logger
 
 def classify_game_length(turns):
 
-    if turns < 20:
+    if turns < 15:
         return "Short"
 
-    elif turns < 60:
+    elif turns < 71:
         return "Medium"
 
     return "Long"
@@ -198,7 +198,7 @@ def analyze_stage3(df):
 
     # print(game_length_dist)
     for category, pct in game_length_dist.items():
-        print(f"     -> {category:<6}: {pct:.2f}%")
+        print(f"     -> {category:<6}: {pct:.0f}%")
 
 
     logger.info("Stage 3 analysis completed")
