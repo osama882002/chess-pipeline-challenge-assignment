@@ -3,7 +3,7 @@ from src.profiler import profile_chess_data
 from src.clean import clean_chess
 from src.validator import run_all_validations
 from src.stage2_analysis import analyze_stage2
-
+from src.analytics import analyze_stage3
 
 URL_CHESS_GAMES = (
 "https://drive.google.com/file/d/1eR3NZtwIC6ECN3vhtrynqmx8okG0twA7/view?usp=sharing"
@@ -49,6 +49,7 @@ def main():
         .pipe(clean_chess)
         .pipe(run_all_validations)
         .pipe(analyze_stage2)
+        .pipe(analyze_stage3)
     )
 
     print(f"\n[+] Clean dataset shape: {df_chess_clean.shape}")
