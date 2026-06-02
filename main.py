@@ -2,8 +2,8 @@ from src.loader import fetch_drive_data
 from src.profiler import profile_chess_data
 from src.clean import clean_chess
 from src.validator import run_all_validations
-from src.stage2_analysis import analyze_stage2
-from src.analytics import analyze_stage3
+from src.analytics import analyze_stage3, analyze_stage2, analyze_stage4
+from src.merge import (merge_player_registry, standardize_country_names)
 
 URL_CHESS_GAMES = (
 "https://drive.google.com/file/d/1eR3NZtwIC6ECN3vhtrynqmx8okG0twA7/view?usp=sharing"
@@ -50,6 +50,15 @@ def main():
         .pipe(run_all_validations)
         .pipe(analyze_stage2)
         .pipe(analyze_stage3)
+    )
+
+    merged_df = (
+        merge_player_registry(
+            df_chess_clean,
+            df_players
+        )
+        .pipe(standardize_country_names)
+        .pipe(analyze_stage4)
     )
 
     print(f"\n[+] Clean dataset shape: {df_chess_clean.shape}")

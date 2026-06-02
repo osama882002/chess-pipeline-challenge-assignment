@@ -12,6 +12,60 @@ def classify_game_length(turns):
     return "Long"
 
 
+def analyze_stage2(df):
+
+    print("\n" + "=" * 55)
+    print("STAGE 2 ANALYSIS")
+    print("=" * 55)
+    logger.info(
+        "=" * 50
+    )
+    logger.info("Starting Stage 2 analysis")
+
+    
+    # Q7
+    # Higher-rated player win percentage
+
+    non_draw_games = (df[df["winner"] != "Draw"])
+
+    higher_rated_won = (
+        (
+            (non_draw_games["white_rating"] > non_draw_games["black_rating"])
+            &
+            (non_draw_games["winner"] == "White")
+        )
+        |
+        (
+            (non_draw_games["black_rating"] > non_draw_games["white_rating"])
+            &
+            (non_draw_games["winner"] == "Black")
+        )
+    )
+
+    q7 = (higher_rated_won.mean()* 100)
+
+    print(f"Q7: Higher-rated player won {q7:.2f}% of non-draw games")
+
+
+    # Q8
+    # Suspicious games
+
+    q8 = (df["is_suspicious"].sum())
+
+    print(f"Q8: Suspicious games (<5 turns): {q8}")
+
+
+    # Q9
+    # Unique opening families
+
+    q9 = (df["opening_family"].nunique())
+
+    print(f"Q9: Unique opening families: {q9}")
+
+    logger.info(f"Q7={q7:.2f}% | Q8={q8} | Q9={q9}")
+
+    return df
+
 def analyze_stage3(df):
 
     print("\n" + "=" * 55)
@@ -149,5 +203,44 @@ def analyze_stage3(df):
 
     logger.info("Stage 3 analysis completed")
     print("\n" + "-" * 55)
+
+    return df
+
+def analyze_stage4(df):
+
+    print("\n" + "=" * 55)
+    print("STAGE 4 ANALYSIS")
+    print("=" * 55)
+
+    # print(df.columns.tolist())
+    # print(df.head())
+    
+    # ==========================
+    # Q16
+    # ==========================
+
+    missing_registry = df["display_name"].isna().sum()
+
+    print(
+        f"\nQ16"
+        f"\n     -> Games with no matching registry player: "
+        f"{missing_registry:,}"
+    )
+
+    # ==========================
+    # Q17
+    # ==========================
+
+    unique_countries = (
+        df["country"]
+        .dropna()
+        .nunique()
+    )
+
+    print(
+        f"\nQ17"
+        f"\n     -> Clean country names: "
+        f"{unique_countries}"
+    )
 
     return df
