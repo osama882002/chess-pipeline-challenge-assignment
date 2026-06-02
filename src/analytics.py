@@ -219,13 +219,12 @@ def analyze_stage4(df):
     # Q16
     # ==========================
 
-    missing_registry = df["display_name"].isna().sum()
-
-    print(
-        f"\nQ16"
-        f"\n     -> Games with no matching registry player: "
-        f"{missing_registry:,}"
-    )
+    # خطوة 1: نأخذ فقط الصفوف التي فشل دمجها (أي اسم العرض فارغ)
+    missing_registry_df = df[df["display_name"].isna()]    
+    # خطوة 2: نحسب عدد اللاعبين الفريدين (white_id) من هذه الصفوف
+    unique_missing_white_players = missing_registry_df["white_id"].nunique()
+    print(f"\nQ16 — How many white players have no registry entry?")
+    print(f"     -> Unique White Players: {unique_missing_white_players:,}")
 
     # ==========================
     # Q17
@@ -242,6 +241,7 @@ def analyze_stage4(df):
         f"\n     -> Clean country names: "
         f"{unique_countries}"
     )
+    # print("Current unique countries:", df["country"].dropna().unique().tolist())
 
     return df
 

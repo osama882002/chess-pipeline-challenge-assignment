@@ -24,6 +24,7 @@ def merge_player_registry(
 
     logger.info(f"Merged shape: {merged_df.shape}")
 
+    
     return merged_df
 
 def standardize_country_names(df):
@@ -32,24 +33,36 @@ def standardize_country_names(df):
         "Standardizing country names"
     )
 
+    if "country" in df.columns:
+        df['country'] = df['country'].str.strip().str.title() # تنظيف العمود من الفراغات وتوحيد حالة الأحرف
+        df['country'] = df['country'].replace('', None)  # التخلص من أي نصوص فارغة إن وجدت
+
     country_map = {
-        "US": "United States",
-        "USA": "United States",
-        "united states": "United States",
+            # أمريكا وبريطانيا
+            "Us": "United States",
+            "Usa": "United States",
+            "Uk": "United Kingdom",
+            "Gb": "United Kingdom",
+            
+            # روسيا وأوكرانيا            
+            "Rus": "Russia",
+            "Russian Federation": "Russia",
+            "Ua": "Ukraine",
+            
+            # ألمانيا
+            "De": "Germany",
+            "Deutschland": "Germany",
+            
+            # فرنسا وإسبانيا
+            "Fr": "France",
+            "Es": "Spain",
+            
+            # بولندا والبرازيل والهند
+            "Pl": "Poland",
+            "Bra": "Brazil",
+            "In": "India"
+        }
 
-        "GB": "United Kingdom",
-        "UK": "United Kingdom",
-
-        "RUS": "Russia",
-
-        "UA": "Ukraine"
-    }
-
-    # df["country"] = (
-    #     df["country"]
-    #     .replace(country_map)
-    # )
-
-    df['country'] = df['country'].map(country_map).fillna(df['country'])
+    df["country"] = (df["country"].replace(country_map)) # استبدال الصيغ المتعارضة بالأسماء الموحدة
     
     return df
